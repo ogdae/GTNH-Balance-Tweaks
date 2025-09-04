@@ -10,6 +10,11 @@ public class RecipeModifier {
 
     public static void modifyAllRecipes() {
         GTNHBalanceTweaksLogger.info("=== Starting Recipe Modification Pass ===");
+        GTNHBalanceTweaksLogger.info(
+            String.format(
+                "Config: RecipeTimeMultiplier=%.3f, EuPerTickMultiplier=%.3f",
+                ConfigHandler.recipeTimeMultiplier,
+                ConfigHandler.euPerTickMultiplier));
 
         try {
             // Get RecipeMaps class using reflection
@@ -47,7 +52,16 @@ public class RecipeModifier {
             targetMapNames.add("distilleryRecipes");
             targetMapNames.add("vacuumFreezerRecipes");
             targetMapNames.add("alloySmelterRecipes");
-            // primitiveBlastRecipes is handled separately now
+            targetMapNames.add("formingPressRecipes");
+            targetMapNames.add("laserEngraverRecipes");
+            targetMapNames.add("electroMagneticSeparatorRecipes");
+            targetMapNames.add("fluidCannerRecipes");
+            targetMapNames.add("fermentingRecipes");
+            targetMapNames.add("pyrolyseRecipes");
+            targetMapNames.add("crackingRecipes");
+            targetMapNames.add("circuitAssemblerRecipes");
+            targetMapNames.add("cannerRecipes");
+            targetMapNames.add("slicerRecipes");
 
             int totalModified = 0;
             int processedMaps = 0;
@@ -78,7 +92,8 @@ public class RecipeModifier {
                     try {
                         Method getAllRecipesMethod = recipeMap.getClass()
                             .getMethod("getAllRecipes");
-                        Collection<?> recipes = (Collection<?>) getAllRecipesMethod.invoke(recipeMap);
+                        @SuppressWarnings("unchecked")
+                        Collection<Object> recipes = (Collection<Object>) getAllRecipesMethod.invoke(recipeMap);
                         int recipeCount = recipes.size();
 
                         // Check if this is a fuel/generator map
@@ -139,23 +154,36 @@ public class RecipeModifier {
             }
 
             try {
+                // Use getDeclaredField to catch non-public fields
                 Field durationField = recipe.getClass()
-                    .getField("mDuration");
+                    .getDeclaredField("mDuration");
+                durationField.setAccessible(true);
                 int duration = durationField.getInt(recipe);
 
                 Field eutField = recipe.getClass()
-                    .getField("mEUt");
+                    .getDeclaredField("mEUt");
+                eutField.setAccessible(true);
                 int eut = eutField.getInt(recipe);
 
                 if (duration > 0 && eut > 0) {
-                    durationField.setInt(recipe, Math.max(1, duration / 2));
-                    eutField.setInt(recipe, Math.max(1, eut / 2));
+                    // Apply config multipliers (clamped to at least 1)
+                    int newDuration = (int) Math.max(1, Math.round(duration * ConfigHandler.recipeTimeMultiplier));
+                    int newEut = (int) Math.max(1, Math.round(eut * ConfigHandler.euPerTickMultiplier));
+
+                    durationField.setInt(recipe, newDuration);
+                    eutField.setInt(recipe, newEut);
                     modified++;
                 } else {
                     skipped++;
                 }
             } catch (Exception e) {
-                GTNHBalanceTweaksLogger.warn("Failed to modify individual recipe in " + mapName, e);
+                GTNHBalanceTweaksLogger.warn(
+                    "Failed to modify recipe in " + mapName
+                        + " (class="
+                        + recipe.getClass()
+                            .getName()
+                        + ")",
+                    e);
                 skipped++;
             }
         }

@@ -1,4 +1,3 @@
-
 pluginManagement {
     repositories {
         maven {
@@ -19,3 +18,5 @@ pluginManagement {
 plugins {
     id("com.gtnewhorizons.gtnhsettingsconvention") version("1.0.41")
 }
+
+rootProject.name = "GTNHBalanceTweaks"

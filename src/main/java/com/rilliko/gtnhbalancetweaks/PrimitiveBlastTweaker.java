@@ -15,22 +15,29 @@ public class PrimitiveBlastTweaker {
             // Call getAllRecipes to fetch what backend compiled
             Method getAllRecipes = recipeMap.getClass()
                 .getMethod("getAllRecipes");
-            Collection<?> recipes = (Collection<?>) getAllRecipes.invoke(recipeMap);
+            @SuppressWarnings("unchecked")
+            Collection<Object> recipes = (Collection<Object>) getAllRecipes.invoke(recipeMap);
 
             int modified = 0;
             int skipped = 0;
 
             for (Object recipe : recipes) {
-                if (recipe == null) continue;
+                if (recipe == null) {
+                    skipped++;
+                    continue;
+                }
 
                 try {
                     Field durationField = recipe.getClass()
                         .getField("mDuration");
                     int duration = durationField.getInt(recipe);
 
-                    // Primitive Blast Furnace always has eut == 0
+                    // PBF recipes always have eut == 0, only time matters
                     if (duration > 0) {
-                        durationField.setInt(recipe, Math.max(1, duration / 4));
+                        int newDuration = (int) Math
+                            .max(1, Math.round(duration * ConfigHandler.primitiveBlastTimeMultiplier));
+
+                        durationField.setInt(recipe, newDuration);
                         modified++;
                     } else {
                         skipped++;
