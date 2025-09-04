@@ -9,10 +9,7 @@ Currently built and tested with **GTNH 2.8.0-beta-3**.
 - Halves recipe time and EU/t for most GregTech machines.  
 - Special handling for the **Primitive Blast Furnace**: recipe time reduced by 4x (EU/t unchanged).  
 - Configurable multipliers so you can **make the game easier or harder** depending on your preference.  
-- Safe defaults for balanced play:  
-  - `RecipeTimeMultiplier = 0.5`  
-  - `EuPerTickMultiplier = 0.5`  
-  - `PrimitiveBlastTimeMultiplier = 0.25`
+- Safe defaults for balanced play
 
 ---
 
@@ -44,22 +41,23 @@ Special case: **Primitive Blast Furnace** handled separately with its own multip
 ---
 
 ## 📌 Compatibility
-- Built for **GregTech: New Horizons 2.8.0-beta-3**  
-- Requires GregTech to be installed.  
+- Built for **GregTech: New Horizons 2.8.0-beta-3**   
 - Should work fine on servers and clients alike.  
 
 ---
 
 ## 🛠 Issues & Support
 - Open an [issue on GitHub](../../issues)  
-- Or contact me directly on Discord: **ogdae**  
+- Or contact me directly on Discord: **rilliko**  
 
 ---
 
 ## 🔮 Planned Features
 - Support for all **Assembly Line** recipes  
-- Support for late-game multiblocks (Fusion, Implosion, Plasma Forge, etc.)  
-- Support for modifying **individual groups of machines** (e.g. only furnaces, only chemical machines, etc.)  
+- Support for late-game multiblocks (Fusion, Eye of Harmony, Plasma Forge, etc.)  
+- Support for modifying **individual groups of machines** (e.g. only furnaces, only chemical machines, etc.)
+- Increased fuel efficiency for single block generators, and increased power output modifiers for multiblock generators
+- Deeper configuration and tweakability
 
 ---
 
