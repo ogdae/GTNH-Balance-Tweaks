@@ -14,11 +14,8 @@ A lightweight addon for [GregTech: New Horizons](https://github.com/GTNewHorizon
   - Increase runtime of fuels globally, or improve turbine efficiency.
 
 ## ⚙️ Configuration
-Tweaks are controlled through config values in `gradle.properties` or through the mod’s internal config system.
-Examples:
-- `timeMultiplier = 0.5` → recipes take half as long.
-- `euMultiplier = 0.5` → machines consume half the power.
-- `fuelEfficiencyMultiplier = 4.0` → fuels last 4× longer.
+A config covering global or targeted machine groups is a work in progess:
+- This would allow specifying the amount of time and eu/t reduction to be applied.
 
 ## 📦 Installation
 1. Place the built `.jar` into your `mods/` folder in GTNH.
