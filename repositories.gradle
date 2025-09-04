@@ -1,0 +1,7 @@
+repositories {
+    maven {
+        url = uri("https://maven.gtnewhorizons.com/")
+    }
+    maven { url = uri("https://jitpack.io") }
+    mavenCentral()
+}
