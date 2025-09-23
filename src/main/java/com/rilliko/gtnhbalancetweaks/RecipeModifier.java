@@ -3,76 +3,24 @@ package com.rilliko.gtnhbalancetweaks;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 public class RecipeModifier {
 
     public static void modifyAllRecipes() {
         GTNHBalanceTweaksLogger.info("=== Starting Recipe Modification Pass ===");
-        GTNHBalanceTweaksLogger.info(
-            String.format(
-                "Config: RecipeTimeMultiplier=%.3f, EuPerTickMultiplier=%.3f",
-                ConfigHandler.recipeTimeMultiplier,
-                ConfigHandler.euPerTickMultiplier));
 
         try {
-            // Get RecipeMaps class using reflection
+            // Reflect into GT RecipeMaps
             Class<?> recipeMapsClass = Class.forName("gregtech.api.recipe.RecipeMaps");
-
-            Set<String> targetMapNames = new HashSet<>();
-            targetMapNames.add("maceratorRecipes");
-            targetMapNames.add("centrifugeRecipes");
-            targetMapNames.add("electrolyzerRecipes");
-            targetMapNames.add("cutterRecipes");
-            targetMapNames.add("benderRecipes");
-            targetMapNames.add("wiremillRecipes");
-            targetMapNames.add("compressorRecipes");
-            targetMapNames.add("extractorRecipes");
-            targetMapNames.add("blastFurnaceRecipes");
-            targetMapNames.add("arcFurnaceRecipes");
-            targetMapNames.add("assemblerRecipes");
-            targetMapNames.add("mixerRecipes");
-            targetMapNames.add("autoclaveRecipes");
-            targetMapNames.add("distillationTowerRecipes");
-            targetMapNames.add("chemicalReactorRecipes");
-            targetMapNames.add("multiblockChemicalReactorRecipes");
-            targetMapNames.add("fluidSolidifierRecipes");
-            targetMapNames.add("fluidExtractionRecipes");
-            targetMapNames.add("polarizerRecipes");
-            targetMapNames.add("oreWasherRecipes");
-            targetMapNames.add("thermalCentrifugeRecipes");
-            targetMapNames.add("extruderRecipes");
-            targetMapNames.add("hammerRecipes");
-            targetMapNames.add("latheRecipes");
-            targetMapNames.add("chemicalBathRecipes");
-            targetMapNames.add("brewingRecipes");
-            targetMapNames.add("plasmaArcFurnaceRecipes");
-            targetMapNames.add("fluidHeaterRecipes");
-            targetMapNames.add("distilleryRecipes");
-            targetMapNames.add("vacuumFreezerRecipes");
-            targetMapNames.add("alloySmelterRecipes");
-            targetMapNames.add("formingPressRecipes");
-            targetMapNames.add("laserEngraverRecipes");
-            targetMapNames.add("electroMagneticSeparatorRecipes");
-            targetMapNames.add("fluidCannerRecipes");
-            targetMapNames.add("fermentingRecipes");
-            targetMapNames.add("pyrolyseRecipes");
-            targetMapNames.add("crackingRecipes");
-            targetMapNames.add("circuitAssemblerRecipes");
-            targetMapNames.add("cannerRecipes");
-            targetMapNames.add("slicerRecipes");
 
             int totalModified = 0;
             int processedMaps = 0;
 
-            // Get all fields from RecipeMaps class
+            // Get all fields from RecipeMaps
             Field[] allFields = recipeMapsClass.getDeclaredFields();
 
-            GTNHBalanceTweaksLogger.info("=== Analyzing All Recipe Maps ===");
-
             for (Field field : allFields) {
-                // Only process public static fields that might be recipe maps
+                // Only process public static fields
                 if (!java.lang.reflect.Modifier.isStatic(field.getModifiers())
                     || !java.lang.reflect.Modifier.isPublic(field.getModifiers())) {
                     continue;
@@ -82,46 +30,25 @@ public class RecipeModifier {
 
                 try {
                     Object recipeMap = field.get(null);
+                    if (recipeMap == null) continue;
 
-                    if (recipeMap == null) {
-                        GTNHBalanceTweaksLogger.info("SKIPPED (null): " + fieldName);
-                        continue;
-                    }
-
-                    // Check if this looks like a recipe map by checking if it has getAllRecipes method
                     try {
                         Method getAllRecipesMethod = recipeMap.getClass()
                             .getMethod("getAllRecipes");
                         @SuppressWarnings("unchecked")
                         Collection<Object> recipes = (Collection<Object>) getAllRecipesMethod.invoke(recipeMap);
-                        int recipeCount = recipes.size();
 
-                        // Check if this is a fuel/generator map
-                        boolean isFuelMap = fieldName.toLowerCase()
-                            .contains("fuel")
-                            || fieldName.toLowerCase()
-                                .contains("generator")
-                            || fieldName.toLowerCase()
-                                .contains("turbine");
-
-                        if (targetMapNames.contains(fieldName)) {
+                        // use whitelist helper to decide if we touch this map
+                        if (RecipeMapWhitelist.shouldProcessGT(fieldName)) {
                             int modified = processRecipeMap(recipes, fieldName);
                             if (modified > 0) {
                                 totalModified += modified;
                                 processedMaps++;
                             }
-                        } else if (isFuelMap) {
-                            GTNHBalanceTweaksLogger
-                                .info("SKIPPED (fuel/generator): " + fieldName + " (" + recipeCount + " recipes)");
-                        } else if (recipeCount == 0) {
-                            GTNHBalanceTweaksLogger.info("SKIPPED (empty): " + fieldName + " (0 recipes)");
-                        } else {
-                            GTNHBalanceTweaksLogger
-                                .info("NOT TARGETED: " + fieldName + " (" + recipeCount + " recipes)");
                         }
 
                     } catch (NoSuchMethodException e) {
-                        // Not a recipe map, skip silently
+                        // Not a recipe map, skip
                     }
 
                 } catch (Exception e) {
@@ -145,16 +72,14 @@ public class RecipeModifier {
 
     private static int processRecipeMap(Collection<?> recipes, String mapName) {
         int modified = 0;
-        int skipped = 0;
+
+        double timeMult = ConfigHandler.getTimeMultiplier(mapName);
+        double euMult = ConfigHandler.getEuMultiplier(mapName);
 
         for (Object recipe : recipes) {
-            if (recipe == null) {
-                skipped++;
-                continue;
-            }
+            if (recipe == null) continue;
 
             try {
-                // Use getDeclaredField to catch non-public fields
                 Field durationField = recipe.getClass()
                     .getDeclaredField("mDuration");
                 durationField.setAccessible(true);
@@ -166,15 +91,12 @@ public class RecipeModifier {
                 int eut = eutField.getInt(recipe);
 
                 if (duration > 0 && eut > 0) {
-                    // Apply config multipliers (clamped to at least 1)
-                    int newDuration = (int) Math.max(1, Math.round(duration * ConfigHandler.recipeTimeMultiplier));
-                    int newEut = (int) Math.max(1, Math.round(eut * ConfigHandler.euPerTickMultiplier));
+                    int newDuration = Math.max(1, (int) Math.round(duration * timeMult));
+                    int newEut = Math.max(1, (int) Math.round(eut * euMult));
 
                     durationField.setInt(recipe, newDuration);
                     eutField.setInt(recipe, newEut);
                     modified++;
-                } else {
-                    skipped++;
                 }
             } catch (Exception e) {
                 GTNHBalanceTweaksLogger.warn(
@@ -184,12 +106,10 @@ public class RecipeModifier {
                             .getName()
                         + ")",
                     e);
-                skipped++;
             }
         }
 
-        GTNHBalanceTweaksLogger
-            .info(String.format("PROCESSED: %s - %d recipes modified, %d skipped", mapName, modified, skipped));
+        GTNHBalanceTweaksLogger.info(String.format("PROCESSED: %s - %d recipes modified", mapName, modified));
         return modified;
     }
 }

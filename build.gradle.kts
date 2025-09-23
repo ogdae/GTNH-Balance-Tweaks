@@ -5,6 +5,7 @@ plugins {
 dependencies {
     // GregTech API (dev jar)
     compileOnly("com.github.GTNewHorizons:GT5-Unofficial:5.09.45.74:dev")
+    compileOnly("com.github.GTNewHorizons:GTplusplus:1.9.85:dev")
 }
 
 // === Versioning ===
@@ -55,3 +56,4 @@ fun String.runCommand(exitOnFail: Boolean = true): Pair<Int, String> {
     }
     return exitCode to output
 }
+
