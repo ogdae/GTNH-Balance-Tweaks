@@ -1,75 +1,75 @@
 # GTNH Balance Tweaks
 
-A lightweight addon mod for [GregTech: New Horizons](https://github.com/GTNewHorizons/GT-New-Horizons-Modpack) that adjusts the **time** and **power usage** of GregTech machines.  
-Currently built and tested with **GTNH 2.8.0-beta-3**.
+A lightweight addon mod for GregTech: New Horizons that adjusts the time and power usage of GregTech machines.  
+Currently built and tested on **GTNH 2.8.0 RC1**. Presumed to work on future versions, but not guaranteed.  
+
+⚠️ **Disclaimer**: This mod is experimental and untested. It may break long-term worlds. Use at your own risk.  
+If you run into issues, please open a ticket on GitHub or contact me directly on Discord (`rilliko`).  
 
 ---
 
 ## ✨ Features
-- Halves recipe time and EU/t for most GregTech machines.  
-- Special handling for the **Primitive Blast Furnace**: recipe time reduced by 4x (EU/t unchanged).  
-- Configurable multipliers so you can **make the game easier or harder** depending on your preference.  
-- Safe defaults for balanced play
+- Halves recipe time and EU/t for most GregTech machines by default.  
+- Primitive Blast Furnace recipes run 4× faster.  
+- Configurable multipliers so you can tune recipes easier *or* harder depending on your preference.    
+- Works on both client and server.  
 
 ---
 
 ## ⚙️ Configuration
-A config file is generated at: /config/gtnhbalancetweaks.cfg
+A config file is generated at:  
+`/config/gtnhbalancetweaks.cfg`  
 
-You can adjust these settings:
+You can adjust multipliers on a **per-machine basis**, or globally if you want everything treated the same:  
+
 - `RecipeTimeMultiplier` → default `0.5`  
 - `EuPerTickMultiplier` → default `0.5`  
 - `PrimitiveBlastTimeMultiplier` → default `0.25`  
 
-Examples:
-- Set to `0.1` → recipes 10x faster, 10x cheaper  
-- Set to `2.0` → recipes 2x slower, 2x more expensive
+Examples:  
+- `0.1` → recipes are 10× faster and 10× cheaper.  
+- `2.0` → recipes are 2× slower and 2× more expensive.  
+- Per-machine overrides let you make, for example, **cutting machines cheap**, but **furnaces expensive**.  
 
 ---
 
 ## 🏭 Machines Covered
-All recipes for these machines are currently modified:
+This mod tweaks nearly all GregTech singleblock and multiblock machines, including:  
 
 - **Basic processing**: Macerator, Compressor, Extractor, Ore Washer, Thermal Centrifuge  
 - **Furnaces & smelters**: Arc Furnace, Plasma Arc Furnace, Blast Furnace, Alloy Smelter, Vacuum Freezer  
 - **Forming & cutting**: Cutter, Wiremill, Bender, Lathe, Extruder, Hammer, Slicer, Forming Press, Laser Engraver  
 - **Chemical & fluids**: Chemical Reactor, Multiblock Chemical Reactor, Mixer, Autoclave, Chemical Bath, Distillery, Fluid Heater, Fluid Solidifier, Fluid Extractor, Fluid Canner, Fermenter, Polarizer, Brewing  
 - **Assembly & misc**: Assembler, Circuit Assembler, Canner  
+- **Special case**: Primitive Blast Furnace (handled separately with its own multiplier)  
 
-Special case: **Primitive Blast Furnace** handled separately with its own multiplier.  
+GT++ maps (~6,300 recipes) and Railcraft Coke Oven recipes are also supported.  
 
 ---
 
 ## 📌 Compatibility
-- Built for **GregTech: New Horizons 2.8.0-beta-3**   
-- Should work fine on servers and clients alike.  
-
----
-
-## 🛠 Issues & Support
-- Open an [issue on GitHub](../../issues)  
-- Or contact me directly on Discord: **rilliko**  
+- Designed for **GregTech: New Horizons 2.8.0 RC1**  
+- Expected to work with future versions, but not guaranteed  
 
 ---
 
 ## 🔮 Planned Features
-- Support for all **Assembly Line** recipes  
-- Support for late-game multiblocks (Fusion, Eye of Harmony, Plasma Forge, etc.)  
-- Support for modifying **individual groups of machines** (e.g. only furnaces, only chemical machines, etc.)
-- Increased fuel efficiency for single block generators, and increased power output modifiers for multiblock generators
-- Deeper configuration and tweakability
+- Support for endgame multiblocks (Assembly Line, Fusion, Eye of Harmony, etc.)  
+- More granular configuration (toggle entire groups like "furnaces" or "chemicals")  
+- Generator tweaks (fuel efficiency and multiblock output scaling)  
 
 ---
 
 ## 📦 Download
-Grab the latest release from the [Releases page](../../releases).  
+Get the latest release from the [Releases page](../../releases).  
 
 ---
 
 ## 🙏 Credits
-- Huge thanks to the [GTNH team](https://github.com/GTNewHorizons) for their incredible work maintaining and expanding the pack.  
-- This mod was created using the **[ExampleMod template](https://github.com/GTNewHorizons/ExampleMod1.7.10)** as a starting point.
+Huge thanks to the GTNH team for their incredible work maintaining and expanding the pack.  
+This mod started life from the ExampleMod template.  
 
 ---
 
-
+## ⚠️ Additional Disclaimer
+This code was created with major assistance from ChatGPT. While every effort has been made to test functionality, unexpected behavior may occur. Don't expect fantastic work if you take a look at the code yourself, I have no idea what I'm doing, but the mod works well enough for me and my friends. Again, use at your own risk.
