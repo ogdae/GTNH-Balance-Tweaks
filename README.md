@@ -14,6 +14,17 @@ If you run into issues, please open a ticket on GitHub or contact me directly on
 - Configurable multipliers so you can tune recipes easier *or* harder depending on your preference.    
 - Works on both client and server.  
 
+Modified Hatches:
+- Downtiered lategame AE2 ME hatches to skip early subnetting requirements for multiblocks
+
+Pattern Processor Matrix (Crafting Input Buffer):
+<img width="589" height="510" alt="2025-10-02_08 19 50" src="https://github.com/user-attachments/assets/073131c5-b566-4081-8eea-2e8510fa3ceb" />
+<img width="1009" height="388" alt="2025-10-02_08 19 55" src="https://github.com/user-attachments/assets/208ca34a-acfa-433f-9b8e-7103ebb10de1" />
+
+Pattern Matrix Proxy: (Crafting Input Proxy):
+<img width="590" height="507" alt="2025-10-02_08 20 00" src="https://github.com/user-attachments/assets/f92869ca-ab90-454b-9c3a-411b5d3f719e" />
+<img width="1320" height="298" alt="2025-10-02_08 20 02" src="https://github.com/user-attachments/assets/cc5b6f3f-83d8-4bf2-a854-52aae88add1c" />
+
 ---
 
 ## ⚙️ Configuration
