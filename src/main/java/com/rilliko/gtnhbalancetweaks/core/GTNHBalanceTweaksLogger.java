@@ -1,4 +1,4 @@
-package com.rilliko.gtnhbalancetweaks;
+package com.rilliko.gtnhbalancetweaks.core;
 
 import java.io.File;
 import java.io.IOException;

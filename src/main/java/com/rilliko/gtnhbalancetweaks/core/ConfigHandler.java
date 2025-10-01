@@ -1,10 +1,12 @@
-package com.rilliko.gtnhbalancetweaks;
+package com.rilliko.gtnhbalancetweaks.core;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraftforge.common.config.Configuration;
+
+import com.rilliko.gtnhbalancetweaks.recipe.RecipeMapWhitelist;
 
 public class ConfigHandler {
 

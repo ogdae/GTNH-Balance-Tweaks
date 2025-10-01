@@ -4,14 +4,13 @@ plugins {
 
 dependencies {
     // GregTech API (dev jar)
-    compileOnly("com.github.GTNewHorizons:GT5-Unofficial:5.09.45.74:dev")
-    compileOnly("com.github.GTNewHorizons:GTplusplus:1.9.85:dev")
+    compileOnly("com.github.GTNewHorizons:GT5-Unofficial:5.09.51.459:dev")
 }
 
 // === Versioning ===
 
 // Read the Java file and extract VERSION constant
-val modVersion: String = file("src/main/java/com/rilliko/gtnhbalancetweaks/GTNHBalanceTweaks.java")
+val modVersion: String = file("src/main/java/com/rilliko/gtnhbalancetweaks/core/GTNHBalanceTweaks.java")
     .readText()
     .let { text ->
         val regex = Regex("""VERSION\s*=\s*"([^"]+)"""")

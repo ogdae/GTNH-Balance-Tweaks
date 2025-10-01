@@ -1,4 +1,4 @@
-package com.rilliko.gtnhbalancetweaks;
+package com.rilliko.gtnhbalancetweaks.recipe;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -7,6 +7,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+
+import com.rilliko.gtnhbalancetweaks.core.ConfigHandler;
+import com.rilliko.gtnhbalancetweaks.core.GTNHBalanceTweaksLogger;
 
 public final class RecipeModifierGTPP {
 

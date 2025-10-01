@@ -1,4 +1,4 @@
-package com.rilliko.gtnhbalancetweaks;
+package com.rilliko.gtnhbalancetweaks.recipe;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -8,7 +8,7 @@ public final class RecipeMapWhitelist {
 
     private RecipeMapWhitelist() {}
 
-    // === GT (GregTech) maps you want to touch ===
+    // === GT Maps ===
     public static final String[] TARGET_MAPS = { "maceratorRecipes", "centrifugeRecipes", "electrolyzerRecipes",
         "cutterRecipes", "benderRecipes", "wiremillRecipes", "compressorRecipes", "extractorRecipes",
         "blastFurnaceRecipes", "arcFurnaceRecipes", "assemblerRecipes", "mixerRecipes", "autoclaveRecipes",
@@ -20,7 +20,7 @@ public final class RecipeMapWhitelist {
         "fluidCannerRecipes", "fermentingRecipes", "pyrolyseRecipes", "crackingRecipes", "circuitAssemblerRecipes",
         "cannerRecipes", "slicerRecipes", "sifterRecipes" };
 
-    // === GT++ maps (from audit; ✅ safe set only) ===
+    // === GT++ maps ===
     public static final String[] GTPP_TARGET_MAPS = { "cokeOvenRecipes", "alloyBlastSmelterRecipes",
         "vacuumFurnaceRecipes", "chemicalDehydratorRecipes", "millingRecipes", "coldTrapRecipes", "simpleWasherRecipes",
         "molecularTransformerRecipes", "chemicalPlantRecipes", "spargeTowerRecipes", "advancedFreezerRecipes",
